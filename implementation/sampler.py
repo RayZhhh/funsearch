@@ -25,7 +25,6 @@ from implementation import evaluator
 from implementation import programs_database
 
 
-# ======================================== LLM Source Code ========================================
 class LLM(ABC):
     """Language model that predicts continuation of provided source code.
     """
@@ -41,9 +40,6 @@ class LLM(ABC):
     def draw_samples(self, prompt: str) -> Collection[str]:
         """Returns multiple predicted continuations of `prompt`."""
         return [self._draw_sample(prompt) for _ in range(self._samples_per_prompt)]
-
-
-# =================================================================================================
 
 
 class Sampler:

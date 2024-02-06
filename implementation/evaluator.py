@@ -136,7 +136,6 @@ def _sample_to_program(
     return evolved_function, str(program)
 
 
-# ======================================== Sandbox Source Code ========================================
 class Sandbox(ABC):
     """Sandbox for executing generated code.
     RZ: Sandbox 1) avoids the generated code to be harmful (accessing the internet, take up too much RAM).
@@ -159,7 +158,6 @@ class Sandbox(ABC):
         """
         raise NotImplementedError(
             'Must provide a sandbox for executing untrusted code.')
-# ======================================================================================================
 
 
 def _calls_ancestor(program: str, function_to_evolve: str) -> bool:
