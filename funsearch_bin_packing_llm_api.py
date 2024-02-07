@@ -2,7 +2,6 @@ import json
 import multiprocessing
 from typing import Collection, Any
 import http.client
-import requests
 from implementation import funsearch
 from implementation import config
 from implementation import sampler
