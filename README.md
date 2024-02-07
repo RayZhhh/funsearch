@@ -10,19 +10,19 @@ Please note that **the Python version** **must larger or equal to Python 3.9**, 
 
 You can run FunSearch for online bin packing locally if enough GPU devices are available. Or you can try to use LLM interfaces to request responses online. 
 
-Please install the packages listed in *requirements.txt*.
+Please install the packages listed in `requirements.txt`.
 
 ## Project Structure
 
 There are some independent directories in this project:
 
-- `bin_packing` contains heuristics discovered by FunSearch for online 1D bin packing problems, and an evaluation suite to reproduce the results reported in the paper.
+- `bin_packing` contains example jupyter notebook for bin packing task. 
 - `implementation` contains an implementation of the evolutionary algorithm, code manipulation routines, and a single-threaded implementation of the FunSearch pipeline. 
 - `llm-server` contains the implementations of an LLM server that gets the prompt by monitoring requests from FunSearch and response to the inference results to the FunSearch algorithm. 
 
 ## Files in *funsearch/implementation*
 
-There are some files in *funsearch/implementation*. They are as follows:
+There are some files in `funsearch/implementation`. They are as follows:
 
 - `code_manipulatoin.py` provides functions to modify the code in the specification.
 - `config.py` includes configs of funsearch.
@@ -35,12 +35,16 @@ There are some files in *funsearch/implementation*. They are as follows:
 
 ## Run FunSearch
 
+### Run FunSearch bin packing demo on Colab
+
+The jupyter notebook in `bin_packing/bin_packing_funsearch.ipynb` can be opened via [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/RayZhhh/funsearch/blob/main/bin_packing/bin_packing_funsearch.ipynb). Please note that do not run the juypter notebook locally, as the jupyter notebook backend does not support mutiprocessor.
+
 ### Parameters and Settings
 
-If you want to adjust the following parameters, you should modify the code in *funsearch/implementation* manually. 
+If you want to adjust the following parameters, you should modify the code in `funsearch/implementation` manually. 
 
-- `timeout_seconds` This parameter defines the maximum evaluation time for a single function. If the evaluation time exceeds this, the evaluation process will be killed. This strategy can prevent *while True* loop and reduce total evaluation costs but may discard potential outstanding functions. You can modify this in *implementation/evaluator.py/class Evaluator*.
-- `_reduce_score` This function does reduction to the score of a sampled function in some instances. The reduction is implemented as *mean* by default. You can modify it in *implementation/program_database.py*, where you can find a '_reduce_score' function.
+- `timeout_seconds` This parameter defines the maximum evaluation time for a single function. If the evaluation time exceeds this, the evaluation process will be killed. This strategy can prevent *while True* loop and reduce total evaluation costs but may discard potential outstanding functions. You can modify this in `implementation/evaluator.py/class Evaluator`.
+- `_reduce_score` This function does reduction to the score of a sampled function in some instances. The reduction is implemented as *mean* by default. You can modify it in `implementation/program_database.py`, where you can find a '_reduce_score' function.
 
 ### Use Local LLM
 
@@ -60,7 +64,7 @@ Then, start FunSearch.
 python funsearch_bin_packing_local_llm.py
 ```
 
-You can see logs via *Tensorboard*. Please check the *log_dir* variable defined in *bin_packing_funsearch_my_template.py*, and start the Tensorboard using the following instructions:
+You can see logs via *Tensorboard*. Please check the *log_dir* variable defined in `bin_packing_funsearch_my_template.py`, and start the Tensorboard using the following instructions:
 
 ```shell
 # Suppose we are in funsearch directory (root directory of this project)
@@ -77,12 +81,11 @@ Start FunSearch.
 python funsearch_bin_packing_llm_api.py
 ```
 
-You can see logs via *Tensorboard*. Please check the *log_dir* variable defined in *bin_packing_funsearch_my_template.py*, and start the Tensorboard using the following instructions:
+You can see logs via *Tensorboard*. Please check the *log_dir* variable defined in `bin_packing_funsearch_my_template.py`, and start the Tensorboard using the following instructions:
 
 ```shell
 # Suppose we are in funsearch directory (root directory of this project).
 cd logs
 tensorboard --logdir funsearch_llm_api
 ```
-
 
