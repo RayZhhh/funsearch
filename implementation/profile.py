@@ -28,6 +28,7 @@ class Profiler:
         logging.getLogger().setLevel(logging.INFO)
         self._log_dir = log_dir
         self._json_dir = os.path.join(log_dir, 'samples')
+        os.makedirs(self._json_dir, exist_ok=True)
         # self._pkl_dir = pkl_dir
         self._max_log_nums = max_log_nums
         self._num_samples = 0

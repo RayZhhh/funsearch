@@ -66,7 +66,7 @@ class Sampler:
         """
         while True:
             # stop the search process if hit global max sample nums
-            if self._max_sample_nums and self._samples_per_prompt > self._max_sample_nums:
+            if self._max_sample_nums and self.__class__._global_samples_nums >= self._max_sample_nums:
                 break
 
             prompt = self._database.get_prompt()

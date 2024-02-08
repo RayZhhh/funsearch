@@ -251,5 +251,5 @@ if __name__ == '__main__':
         config=config,
         max_sample_nums=global_max_sample_num,
         class_config=class_config,
-        log_dir='funsearch_local_llm',
+        log_dir='logs/funsearch_local_llm',
     )
