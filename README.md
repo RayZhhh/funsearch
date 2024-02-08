@@ -16,7 +16,7 @@ Please install the packages listed in `requirements.txt`.
 
 There are some independent directories in this project:
 
-- `bin_packing` contains an example jupyter notebook for the bin packing task. [Here](#colab)
+- `bin_packing` contains an example jupyter notebook for the bin packing task. [See here](#colab).
 - `implementation` contains an implementation of the evolutionary algorithm, code manipulation routines, and a single-threaded implementation of the FunSearch pipeline. 
 - `llm-server` contains the implementations of an LLM server that gets the prompt by monitoring requests from FunSearch and response to the inference results to the FunSearch algorithm. 
 
