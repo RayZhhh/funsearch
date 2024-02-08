@@ -106,13 +106,12 @@ def completions():
         eos_token_id = params.get('eos_token_id', 32021)
         pad_token_id = params.get('pad_token_id', 32021)
 
-
     while True:
         inputs = tokenizer.apply_chat_template(prompt, add_generation_prompt=True, return_tensors='pt')
         inputs = torch.vstack([inputs] * repeat_prompt).to(model.device)
 
         try:
-        # LLM inference
+            # LLM inference
             output = model.generate(
                 inputs,
                 max_new_tokens=max_new_tokens,
@@ -151,8 +150,6 @@ def completions():
         return jsonify(
             {'content': content}
         )
-
-
 
 
 if __name__ == '__main__':

@@ -6,7 +6,7 @@ This repository implements the following publication:
 
 ## Installation and Requirements
 
-Please note that **the Python version** **must larger or equal to Python 3.9**, or the '*ast*' package used in the implementations will fail to work. 
+Please note that **the Python version must be larger or equal to Python 3.9**, or the '*ast*' package used in the implementations will fail to work. 
 
 You can run FunSearch for online bin packing locally if enough GPU devices are available. Or you can try to use LLM interfaces to request responses online. 
 
@@ -16,11 +16,11 @@ Please install the packages listed in `requirements.txt`.
 
 There are some independent directories in this project:
 
-- `bin_packing` contains example jupyter notebook for bin packing task. 
+- `bin_packing` contains an example jupyter notebook for the bin packing task. [Here](#colab)
 - `implementation` contains an implementation of the evolutionary algorithm, code manipulation routines, and a single-threaded implementation of the FunSearch pipeline. 
 - `llm-server` contains the implementations of an LLM server that gets the prompt by monitoring requests from FunSearch and response to the inference results to the FunSearch algorithm. 
 
-## Files in *funsearch/implementation*
+## Files in `funsearch/implementation`
 
 There are some files in `funsearch/implementation`. They are as follows:
 
@@ -33,11 +33,11 @@ There are some files in `funsearch/implementation`. They are as follows:
 - `programs_database.py` evolves the sampled functions.
 - `sampler.py` sends prompts to LLM and gets results.
 
-## Run FunSearch
+## <span id="colab">Run FunSearch Demo on Colab</span>
 
-### Run FunSearch bin packing demo on Colab
+The jupyter notebook in `bin_packing/bin_packing_funsearch.ipynb` can be opened via [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/RayZhhh/funsearch/blob/main/bin_packing/bin_packing_funsearch.ipynb). Please note that do not run jupyter notebook locally, as the jupyter notebook backend does not support multiprocess running.
 
-The jupyter notebook in `bin_packing/bin_packing_funsearch.ipynb` can be opened via [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/RayZhhh/funsearch/blob/main/bin_packing/bin_packing_funsearch.ipynb). Please note that do not run the juypter notebook locally, as the jupyter notebook backend does not support mutiprocessor.
+## Run FunSearch Demo Locally
 
 ### Parameters and Settings
 
@@ -48,7 +48,7 @@ If you want to adjust the following parameters, you should modify the code in `f
 
 ### Use Local LLM
 
-First, start the local LLM server.
+1. First, start the local LLM server.
 
 ```shell
 # Suppose we are in funsearch directory (root dir of this project).
@@ -57,7 +57,7 @@ cd llm-server
 python llm_server.py --port 8088 --path /LLms/CodeLlama-34b --d 0 1 2 3 4 5
 ```
 
-Then, start FunSearch.
+2. Then, start FunSearch.
 
 ```shell
 # Run FunSearch
@@ -74,7 +74,23 @@ tensorboard --logdir funsearch_local_llm
 
 ### Use LLM Interfaces
 
-Start FunSearch.
+1. Set the API's IP address according to your API provider. The code is in `funsearch_bin_packing_llm_api.py` line 33.
+
+```python
+conn = http.client.HTTPSConnection("api.chatanywhere.com.cn")
+```
+
+2. Set the API key in request headers, the code lies in `funsearch_bin_packing_llm_api.py` line 44-48. You should replace `sk-ys...` with your API key.
+
+```python
+headers = {
+  'Authorization': 'Bearer sk-ys02zx...(replace with your API key)...',
+  'User-Agent': 'Apifox/1.0.0 (https://apifox.com)',
+  'Content-Type': 'application/json'
+}
+```
+
+3. Start FunSearch.
 
 ```shell
 # Run FunSearch

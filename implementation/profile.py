@@ -6,8 +6,10 @@ from __future__ import annotations
 import os.path
 from typing import List, Dict
 import logging
+import json
 from implementation import code_manipulation
 from torch.utils.tensorboard import SummaryWriter
+
 
 
 class Profiler:
@@ -26,7 +28,7 @@ class Profiler:
         logging.getLogger().setLevel(logging.INFO)
         self._log_dir = log_dir
         self._json_dir = os.path.join(log_dir, 'samples')
-        self._pkl_dir = pkl_dir
+        # self._pkl_dir = pkl_dir
         self._max_log_nums = max_log_nums
         self._num_samples = 0
         self._cur_best_program_sample_order = None
@@ -69,6 +71,20 @@ class Profiler:
             global_step=self._num_samples
         )
 
+    def _write_json(self, programs: code_manipulation.Function):
+        sample_order = programs.global_sample_nums
+        sample_order = sample_order if sample_order is not None else 0
+        function_str = str(programs)
+        score = programs.score
+        content = {
+            'sample_order': sample_order,
+            'function': function_str,
+            'score': score
+        }
+        path = os.path.join(self._json_dir, f'samples_{sample_order}.json')
+        with open(path, 'w') as json_file:
+            json.dump(content, json_file)
+
     def register_function(self, programs: code_manipulation.Function):
         if self._max_log_nums is not None and self._num_samples >= self._max_log_nums:
             return
@@ -79,6 +95,7 @@ class Profiler:
             self._all_sampled_functions[sample_orders] = programs
             self._record_and_verbose(sample_orders)
             self._write_tensorboard()
+            self._write_json(programs)
 
     def _record_and_verbose(self, sample_orders: int):
         function = self._all_sampled_functions[sample_orders]

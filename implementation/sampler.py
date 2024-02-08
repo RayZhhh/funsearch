@@ -45,7 +45,7 @@ class LLM(ABC):
 class Sampler:
     """Node that samples program continuations and sends them for analysis.
     """
-    _global_samples_nums: int = 0  # RZ: this variable records the global sample nums
+    _global_samples_nums: int = 1  # RZ: this variable records the global sample nums
 
     def __init__(
             self,
