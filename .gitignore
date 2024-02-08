@@ -1,5 +1,5 @@
 ignore
 __pycache__
-logs
+logs/
 .DS_Store
 .idea
