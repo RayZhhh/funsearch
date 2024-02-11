@@ -145,7 +145,7 @@ class Sandbox(evaluator.Sandbox):
                 result_queue.put((None, False))
                 return
             result_queue.put((results, True))
-        except Exception:
+        except:
             # if raise any exception, we assume the execution failed
             result_queue.put((None, False))
 
