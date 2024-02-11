@@ -120,7 +120,7 @@ class Sandbox(evaluator.Sandbox):
             process.join()
             results = None, False
         else:
-            if result_queue.qsize() != 0:
+            if not result_queue.empty():
                 results = result_queue.get_nowait()
             else:
                 results = None, False
