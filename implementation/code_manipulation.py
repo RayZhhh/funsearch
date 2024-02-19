@@ -130,8 +130,31 @@ class ProgramVisitor(ast.NodeVisitor):
         """Collects all information about the function being parsed."""
         if node.col_offset == 0:  # We only care about first level functions.
             self._current_function = node.name
+
+            # -------------------------------------------------------------------------
+            # RZ: BUGS!!! 这里问题很大 没有考虑到一些极端的情况 例如解析到的第一个函数就有装饰器
+            # 如果解析的第一个函数有装饰器 那么装饰器也会被保留在前面的代码片段中
+            # 但在算法的流程中 这个装饰器是无效的 后续评估会报错
+            # Here is an issue: some cases were not taken into consideration.
+            # For instance, if the first parsed function has decorators,
+            # these decorators will also be retained in the preceding code snippet.
+            # However, in the algorithm's flow, these decorators are invalid,
+            # leading to subsequent evaluations reporting errors.
+            # -------------------------------------------------------------------------
+            # if not self._functions:
+            #     self._preface = '\n'.join(self._codelines[:node.lineno - 1])
+            # -------------------------------------------------------------------------
+
+            # TODO Fix bugs 判断下如果函数 is decorated, 找到装饰器的最小行号, 并只保留其上面的部分作为 preface
             if not self._functions:
-                self._preface = '\n'.join(self._codelines[:node.lineno - 1])
+                has_decorators = bool(node.decorator_list)
+                if has_decorators:
+                    # find the minimum line number and retain the code above
+                    decorator_start_line = min(decorator.lineno for decorator in node.decorator_list)
+                    self._preface = '\n'.join(self._codelines[:decorator_start_line - 1])
+                else:
+                    self._preface = '\n'.join(self._codelines[:node.lineno - 1])
+
             function_end_line = node.end_lineno
             body_start_line = node.body[0].lineno - 1
             # Extract the docstring.

@@ -27,9 +27,17 @@ def add_numba_decorator(
     # parse to syntax tree
     tree = ast.parse(program)
 
+    # check if 'import numba' already exists
+    numba_imported = False
+    for node in tree.body:
+        if isinstance(node, ast.Import) and any(alias.name == 'numba' for alias in node.names):
+            numba_imported = True
+            break
+
     # add 'import numba' to the top of the program
-    import_node = ast.Import(names=[ast.alias(name='numba', asname=None)])
-    tree.body.insert(0, import_node)
+    if not numba_imported:
+        import_node = ast.Import(names=[ast.alias(name='numba', asname=None)])
+        tree.body.insert(0, import_node)
 
     # traverse the tree, and find the function_to_run
     for node in ast.walk(tree):
@@ -56,6 +64,7 @@ def add_numba_decorator(
 if __name__ == '__main__':
     code = '''
 import numpy as np
+import numba
 
 def func1():
     return 3

@@ -28,36 +28,6 @@ from implementation import code_manipulation
 from implementation import programs_database
 
 
-def _trim_preface_of_body(sample: str) -> str:
-    """Implemented by RZ: Trim the redundant descriptions/symbols/'def' declaration before the function body.
-    Example sample:
-    -------------------------------------
-    This is the optimized function ...
-    def priority_v2(...) -> ...:
-        return ...
-    -------------------------------------
-    Example return of this function:
-    -------------------------------------
-    return ...
-    -------------------------------------
-    """
-    lines = sample.splitlines()
-    func_body_lineno = 0
-    find_def_declaration = False
-    for lineno, line in enumerate(lines):
-        # find the first 'def' statement in the given code
-        if line[:3] == 'def':
-            func_body_lineno = lineno
-            find_def_declaration = True
-            break
-    if find_def_declaration:
-        code = ''
-        for line in lines[func_body_lineno + 1:]:
-            code += line + '\n'
-        return code
-    return sample
-
-
 class _FunctionLineVisitor(ast.NodeVisitor):
     """Visitor that finds the last line number of a function with a given name."""
 
@@ -86,7 +56,7 @@ def _trim_function_body(generated_code: str) -> str:
         a = item
         return a
     --------------
-    Please note that the indentation is REQUIRED !!! I don't know why they write code like this !!!
+    Please note that the indentation is REQUIRED !!!
     """
     if not generated_code:
         return ''
@@ -121,7 +91,6 @@ def _sample_to_program(
     """Returns the compiled generated function and the full runnable program.
     RZ: This function removes the code after the generated function body.
     """
-    generated_code = _trim_preface_of_body(generated_code)
     body = _trim_function_body(generated_code)
     if version_generated is not None:
         body = code_manipulation.rename_function_calls(

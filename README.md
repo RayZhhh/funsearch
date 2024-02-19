@@ -105,3 +105,6 @@ cd logs
 tensorboard --logdir funsearch_llm_api
 ```
 
+## Issue
+
+If you encounter any difficulty using the code, please do not hesitate to submit an issue!

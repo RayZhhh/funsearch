@@ -27,6 +27,31 @@ from implementation import programs_database
 
 class LLM(ABC):
     """Language model that predicts continuation of provided source code.
+
+    RZ: The sampled function code must be trimmed! Especially using instruct-based LLM.
+    -For example, the sampled function code (with description) is:
+    ------------------------------------------------------------------------------------------------------------------
+    Here is the function.
+    def priority_v2(..., ...) -> Any:
+        a = np.array([1, 2, 3])
+        if len(a) > 2:
+            return a / a.sum()
+        else:
+            return a / a.mean()
+    This function is going to ..., and returns ...[Descriptions by LLM]
+    ------------------------------------------------------------------------------------------------------------------
+    -The descriptions above the function's signature, and the function's signature must be removed.
+    -The above code must be trimmed as follows:
+    ------------------------------------------------------------------------------------------------------------------
+        a = np.array([1, 2, 3])
+            if len(a) > 2:
+                return a / a.sum()
+            else:
+                return a / a.mean()
+        Here is the function. This function is going to ..., and returns ...[Descriptions by LLM]
+    ------------------------------------------------------------------------------------------------------------------
+    Please note that the indent must be preserved. And the additional descriptions can also be preserved,
+    which will be trimmed by Evaluator.
     """
 
     def __init__(self, samples_per_prompt: int) -> None:
