@@ -63,6 +63,7 @@ class Config:
     # num_evaluators: int = 140
     num_evaluators: int = 1  # RZ: I just use one evaluators
     samples_per_prompt: int = 4
+    evaluate_timeout_seconds: int = 30  # RZ: add timeout seconds
 
 
 @dataclasses.dataclass()

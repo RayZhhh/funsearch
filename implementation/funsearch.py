@@ -83,6 +83,7 @@ def main(
             function_to_evolve,
             function_to_run,
             inputs,
+            timeout_seconds=config.evaluate_timeout_seconds,
             sandbox_class=class_config.sandbox_class
         ))
 

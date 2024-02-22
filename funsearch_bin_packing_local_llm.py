@@ -283,7 +283,7 @@ def priority(item: float, bins: np.ndarray) -> np.ndarray:
 # Because the inner code uses multiprocess evaluation.
 if __name__ == '__main__':
     class_config = config.ClassConfig(llm_class=LocalLLM, sandbox_class=Sandbox)
-    config = config.Config(samples_per_prompt=4)
+    config = config.Config(samples_per_prompt=4, evaluate_timeout_seconds=30)
 
     bin_packing_or3 = {'OR3': bin_packing_utils.datasets['OR3']}
     global_max_sample_num = 10  # if it is set to None, funsearch will execute an endless loop
