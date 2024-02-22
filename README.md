@@ -43,7 +43,7 @@ The jupyter notebook in `bin_packing/bin_packing_funsearch.ipynb` can be opened 
 
 If you want to adjust the following parameters, you should modify the code in `funsearch/implementation` manually. 
 
-- `timeout_seconds` This parameter defines the maximum evaluation time for a single function. If the evaluation time exceeds this, the evaluation process will be killed. This strategy can prevent *while True* loop and reduce total evaluation costs but may discard potential outstanding functions. You can modify this in `implementation/evaluator.py/class Evaluator`.
+- ~~`timeout_seconds` This parameter defines the maximum evaluation time for a single function. If the evaluation time exceeds this, the evaluation process will be killed. This strategy can prevent *while True* loop and reduce total evaluation costs but may discard potential outstanding functions. You can modify this in `implementation/evaluator.py/class Evaluator`.~~
 - `_reduce_score` This function does reduction to the score of a sampled function in some instances. The reduction is implemented as *mean* by default. You can modify it in `implementation/program_database.py`, where you can find a '_reduce_score' function.
 
 ### Use Local LLM
