@@ -93,24 +93,26 @@ class Sampler:
             # stop the search process if hit global max sample nums
             if self._max_sample_nums and self.__class__._global_samples_nums >= self._max_sample_nums:
                 break
-
-            prompt = self._database.get_prompt()
-            reset_time = time.time()
-            samples = self._llm.draw_samples(prompt.code)
-            sample_time = (time.time() - reset_time) / self._samples_per_prompt
-            # This loop can be executed in parallel on remote evaluator machines.
-            for sample in samples:
-                self._global_sample_nums_plus_one()  # RZ: add _global_sample_nums
-                cur_global_sample_nums = self._get_global_sample_nums()
-                chosen_evaluator: evaluator.Evaluator = np.random.choice(self._evaluators)
-                chosen_evaluator.analyse(
-                    sample,
-                    prompt.island_id,
-                    prompt.version_generated,
-                    **kwargs,
-                    global_sample_nums=cur_global_sample_nums,
-                    sample_time=sample_time
-                )
+            try:
+                prompt = self._database.get_prompt()
+                reset_time = time.time()
+                samples = self._llm.draw_samples(prompt.code)
+                sample_time = (time.time() - reset_time) / self._samples_per_prompt
+                # This loop can be executed in parallel on remote evaluator machines.
+                for sample in samples:
+                    self._global_sample_nums_plus_one()  # RZ: add _global_sample_nums
+                    cur_global_sample_nums = self._get_global_sample_nums()
+                    chosen_evaluator: evaluator.Evaluator = np.random.choice(self._evaluators)
+                    chosen_evaluator.analyse(
+                        sample,
+                        prompt.island_id,
+                        prompt.version_generated,
+                        **kwargs,
+                        global_sample_nums=cur_global_sample_nums,
+                        sample_time=sample_time
+                    )
+            except:
+                continue
 
     def _get_global_sample_nums(self) -> int:
         return self.__class__._global_samples_nums

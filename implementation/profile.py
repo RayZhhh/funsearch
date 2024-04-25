@@ -11,7 +11,6 @@ from implementation import code_manipulation
 from torch.utils.tensorboard import SummaryWriter
 
 
-
 class Profiler:
     def __init__(
             self,
